@@ -45,8 +45,9 @@ import java.util.Scanner;
     
     public static String getLine()
     {
-        Scanner s = new Scanner(System.in);
-        return s.nextLine();
+        try (Scanner s = new Scanner(System.in)) {
+            return s.nextLine();
+        }
     }
 
 
