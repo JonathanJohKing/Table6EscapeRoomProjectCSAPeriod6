@@ -7,11 +7,8 @@
 */
 import java.util.Scanner;
 
-/**
- * Create an escape room game where the player must navigate
- * to the other side of the screen in the fewest steps, while
- * avoiding obstacles and collecting prizes.
- */
+
+
 public class EscapeRoom
 {
 
@@ -41,6 +38,7 @@ public class EscapeRoom
   public static void main(String[] args) 
   {      
     // welcome message
+    String name;
     System.out.println("Welcome to EscapeRoom!");
     System.out.println("Get to the other side of the room, avoiding walls and invisible traps,");
     System.out.println("pick up all the prizes.\n");
@@ -56,28 +54,143 @@ public class EscapeRoom
     
     int score = 0;
 
-    Scanner in = new Scanner(System.in);
-    String[] validCommands = { "right", "left", "up", "down", "r", "l", "u", "d",
-    "jump", "jr", "jumpleft", "jl", "jumpup", "ju", "jumpdown", "jd",
-    "pickup", "p", "quit", "q", "replay", "help", "?"};
-  
-    // set up game
-    boolean play = true;
-    while (play)
-    {
-      /* TODO: get all the commands working */
-	  /* Your code here */
-    
+    try (Scanner in = new Scanner(System.in)) {
+      String[] validCommands = { "right", "left", "up", "down", "r", "l", "u", "d", "check","c",
+      "jump", "jr", "jumpleft", "jl", "jumpup", "ju", "jumpdown", "jd",
+      "pickup", "p", "quit", "q", "replay", "help", "?", "rm", "remove"};
+
+      String[] trapValidCommands = { "right", "left", "up", "down", "r", "l", "u", "d"};
+
+      //Variable for Game
+      int length = validCommands.length;
+      score = 0;
+
+      // set up game
       
+
+      //Keeps the game running
+      boolean play = true;
+      while (play)
+      {
+      score = 0;
+          System.out.println("Commands for the game type: ? ");
+          System.out.print("Enter command: ");
+
+          
+          String command = in.nextLine().toLowerCase();
+          switch(command){
+          // Allows player to MOVE
+            case "right":
+            case "r":
+              game.movePlayer(m,0);
+              px = px +m;
+              break;
+            case "left":
+            case "l":
+              game.movePlayer(-m,0);
+              px= px -m;
+              break;
+            case "up":
+            case "u":
+              game.movePlayer(0,-m);
+              py = py - m;
+              break;
+            case "down":
+            case "d":
+              game.movePlayer(0,m);
+              py = py +m;
+              break;
+            // Allows player to jump
+            case "jumpleft":
+            case "jl":
+              game.movePlayer(-m*2,0);
+              px = px -m*2;
+              break;
+            case "jumpright":
+            case "jr":
+              game.movePlayer(m*2,0);
+              px = px + m*2;
+              break;
+            case "jumpup":
+            case "ju":
+              game.movePlayer(0,-m*2);
+              py = py - m*2;
+              break;
+            case "jumpdown":
+            case "jd":
+              game.movePlayer(0,m*2);
+              py = py + m*2;
+              break;
+            // Allows me to pickup coin
+            case "pickup":
+            case "p":
+              score += game.pickupPrize();
+              break;
+            // Allow player to check for trap
+            case "check":
+            case "c":
+              if(game.isTrap(0,-m))
+              {
+                System.out.println("There is a trap up");
+
+              }
+              if(game.isTrap(0,m))
+              {
+                System.out.println("There is a trap under");
+
+              }
+              if(game.isTrap(m,0))
+              {
+                System.out.println("There is a trap right");
+
+              }
+              if(game.isTrap(-m,0))
+              {
+                System.out.println("There is a trap left");
+
+              }
+            break;
+            // case for removing trap
+            case "rm":
+            case "remove":
+              System.out.println("What direction would you like to remove the trap");
+              String springInput = UserInput.getValidInput(trapValidCommands);
+              if (springInput.equals("r") ||springInput.equals("right") ){
+                score+=game.springTrap(m, 0);
+              }
+              else if (springInput.equals("l") ||springInput.equals("left") ){
+                score+=game.springTrap(-m, 0);
+              }
+              else if (springInput.equals("u") ||springInput.equals("up") ){
+                score+=game.springTrap(0, -m);
+              }
+              else if (springInput.equals("d") ||springInput.equals("down") ){
+                score+=game.springTrap(0, m);
+              }
+            
+            // Allows player to ask for help
+            case "?":
+            case "help":
+            for (int i = 0; i < length; i++){
+              System.out.println(validCommands[i]);
+            }
+            break;
+            case "quit":
+            case "q":
+              play = false;
+              break;
+        } 
+      }
+            
+          
     }
-
-  
-
     score += game.endGame();
 
     System.out.println("score=" + score);
     System.out.println("steps=" + game.getSteps());
   }
 }
+
+        
 
         
