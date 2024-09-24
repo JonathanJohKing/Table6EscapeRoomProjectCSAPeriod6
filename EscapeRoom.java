@@ -38,7 +38,7 @@ public class EscapeRoom
   public static void main(String[] args) 
   {      
     // welcome message
-    String name;
+    
     System.out.println("Welcome to EscapeRoom!");
     System.out.println("Get to the other side of the room, avoiding walls and invisible traps,");
     System.out.println("pick up all the prizes.\n");
@@ -59,7 +59,7 @@ public class EscapeRoom
       "jump", "jr", "jumpleft", "jl", "jumpup", "ju", "jumpdown", "jd",
       "pickup", "p", "quit", "q", "replay", "help", "?", "rm", "remove"};
 
-      String[] trapValidCommands = { "right", "left", "up", "down", "r", "l", "u", "d"};
+      String[] Commands = { "right", "left", "up", "down", "r", "l", "u", "d"};
 
       //Variable for Game
       int length = validCommands.length;
@@ -84,42 +84,85 @@ public class EscapeRoom
             case "r":
               game.movePlayer(m,0);
               px = px +m;
+              //checks for trap 
+              if(game.isTrap(0,0)){
+                score -= game.springTrap(0,0);
+
+              }
+
               break;
             case "left":
             case "l":
               game.movePlayer(-m,0);
               px= px -m;
+              //checks for trap 
+              if(game.isTrap(0,0)){
+                score -= game.springTrap(0,0);
+
+              }
               break;
             case "up":
             case "u":
               game.movePlayer(0,-m);
               py = py - m;
+              //checks for trap 
+              if(game.isTrap(0,0)){
+                score -= game.springTrap(0,0);
+
+              }
               break;
             case "down":
             case "d":
               game.movePlayer(0,m);
               py = py +m;
+              
+              //checks for trap 
+              if(game.isTrap(0,0)){
+                score -= game.springTrap(0,0);
+
+              }
               break;
             // Allows player to jump
             case "jumpleft":
             case "jl":
               game.movePlayer(-m*2,0);
               px = px -m*2;
+              //checks for trap 
+              if(game.isTrap(0,0)){
+                score -= game.springTrap(0,0);
+
+              }
               break;
             case "jumpright":
             case "jr":
               game.movePlayer(m*2,0);
               px = px + m*2;
+              //checks for trap 
+              if(game.isTrap(0,0)){
+                score -= game.springTrap(0,0);
+
+              }
               break;
             case "jumpup":
             case "ju":
+              //checks for trap 
+              if(game.isTrap(0,0)){
+                score -= game.springTrap(0,0);
+
+              }
               game.movePlayer(0,-m*2);
               py = py - m*2;
               break;
             case "jumpdown":
             case "jd":
+              
               game.movePlayer(0,m*2);
               py = py + m*2;
+              //checks for trap 
+              if(game.isTrap(0,0)){
+                score -= game.springTrap(0,0);
+
+              }
               break;
             // Allows me to pickup coin
             case "pickup":
@@ -154,18 +197,22 @@ public class EscapeRoom
             case "rm":
             case "remove":
               System.out.println("What direction would you like to remove the trap");
-              String springInput = UserInput.getValidInput(trapValidCommands);
-              if (springInput.equals("r") ||springInput.equals("right") ){
-                score+=game.springTrap(m, 0);
+              String InputTrap = UserInput.getValidInput(Commands);
+              if (InputTrap.equals("r") ||InputTrap.equals("right") ){
+                score += 1;
+                game.springTrap(m, 0);
               }
-              else if (springInput.equals("l") ||springInput.equals("left") ){
-                score+=game.springTrap(-m, 0);
+              else if (InputTrap.equals("l") ||InputTrap.equals("left") ){
+                score += 1;
+                game.springTrap(-m, 0);
               }
-              else if (springInput.equals("u") ||springInput.equals("up") ){
-                score+=game.springTrap(0, -m);
+              else if (InputTrap.equals("u") ||InputTrap.equals("up") ){
+                score += 1;
+                game.springTrap(0, -m);
               }
-              else if (springInput.equals("d") ||springInput.equals("down") ){
-                score+=game.springTrap(0, m);
+              else if (InputTrap.equals("d") ||InputTrap.equals("down") ){
+                score += 1;
+                game.springTrap(0, m);
               }
             
             // Allows player to ask for help
