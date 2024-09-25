@@ -73,7 +73,7 @@ public class EscapeRoom
       boolean play = true;
       while (play)
       {
-      if (gameTimer.GameTimerUtil <= 0){
+      if (gameTimer.timeRemaining <= 0){
         play = false;
       }
       score = 0;
