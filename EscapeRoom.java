@@ -7,8 +7,6 @@
 */
 import java.util.Scanner;
 
-
-
 public class EscapeRoom
 {
 
@@ -37,6 +35,9 @@ public class EscapeRoom
 
   public static void main(String[] args) 
   {      
+    GameTimerUtil gameTimer = new GameTimerUtil(10); // 60 seconds
+    gameTimer.start();
+    // Start the countdown
     // welcome message
     String name;
     System.out.println("Welcome to EscapeRoom!");
@@ -72,6 +73,9 @@ public class EscapeRoom
       boolean play = true;
       while (play)
       {
+      if (gameTimer.GameTimerUtil <= 0){
+        play = false;
+      }
       score = 0;
           System.out.println("Commands for the game type: ? ");
           System.out.print("Enter command: ");
